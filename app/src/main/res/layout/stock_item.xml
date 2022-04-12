@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--<data>
+
+        <variable
+            name="item"
+            type="com.mohitajwani.tradingview.model.StockItem" />
+    </data>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/stockName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="@dimen/textSizeMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Tata Motors" />
+
+        <TextView
+            android:id="@+id/stockPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacingMedium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="@dimen/textSizeLarge"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stockName"
+            tools:text="\u20B9 20.00" />
+
+        <TextView
+            android:id="@+id/stockPercentageChange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacingMedium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="@dimen/textSizeMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stockPrice"
+            tools:text="3.02%" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

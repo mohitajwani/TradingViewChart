@@ -31,6 +31,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 }
 
@@ -47,4 +48,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.tradingview:lightweightcharts:3.8.0'
+    implementation "com.squareup.okhttp3:okhttp:4.9.0"
 }

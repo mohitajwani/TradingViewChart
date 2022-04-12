@@ -1,25 +1,34 @@
 package com.mohitajwani.tradingview
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.mohitajwani.tradingview.databinding.FragmentFirstBinding
 import com.tradingview.lightweightcharts.api.options.models.CandlestickSeriesOptions
 import com.tradingview.lightweightcharts.api.options.models.crosshairOptions
 import com.tradingview.lightweightcharts.api.options.models.localizationOptions
 import com.tradingview.lightweightcharts.api.series.enums.CrosshairMode
 import com.tradingview.lightweightcharts.runtime.plugins.PriceFormatter
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.net.Socket
+import java.util.concurrent.Semaphore
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+@DelicateCoroutinesApi
+@ExperimentalCoroutinesApi
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
@@ -29,6 +38,8 @@ class FirstFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var realtimeDataJob: Job? = null
+
+    private lateinit var viewModel: FirstFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,11 +54,7 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
-
-        val viewModel = ViewModelProvider(this)[FirstFragmentViewModel::class.java]
+        viewModel = ViewModelProvider(this)[FirstFragmentViewModel::class.java]
         viewModel.seriesData.observe(viewLifecycleOwner) { data ->
             binding.chartsView.api.apply {
 
@@ -74,6 +81,31 @@ class FirstFragment : Fragment() {
             }
         }
 
+        viewModel.subscribeToSocketEvents()
+
+    }
+
+    private fun createSocketConnection() {
+        Log.d("Socket----> ", "Create Socket connection to Heroku")
+        val client = Socket("https://ws-api-tickering.herokuapp.com", 55326)
+        val clientOut = client.getOutputStream()
+        val clientIn = client.getInputStream()
+
+        val lock = Semaphore(0)
+        val serverOut: OutputStream? = null
+        val serverIn: InputStream? = null
+
+        println("Waiting for lock")
+        lock.acquire()
+        println("Acquired lock")
+
+        Log.d("Socket----> ", clientIn.buffered().toString())
+    }
+
+    @Throws(IOException::class)
+    private fun write(out: OutputStream, str: String) {
+        out.write(str.toByteArray())
+        out.flush()
     }
 
     override fun onDestroyView() {

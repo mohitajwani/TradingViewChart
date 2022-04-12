@@ -26,7 +26,7 @@ class DynamicRepository {
         var targetPrice = getRandomPrice()
 
         var currentIndex = lastIndex + 1
-        var ticksInCurrentBar = 0;
+        var ticksInCurrentBar = 0
 
         return flow {
             val date = Date()
@@ -68,7 +68,7 @@ class DynamicRepository {
 
                 if (++ticksInCurrentBar == 5) {
                     date.time = date.time + 86000L * 1000L
-                    currentIndex++;
+                    currentIndex++
                     ticksInCurrentBar = 0
                     if (currentIndex == 5000) {
                         onEmulationComplete.invoke()
@@ -77,10 +77,10 @@ class DynamicRepository {
 
                     if (currentIndex == targetIndex) {
                         // change trend
-                        lastClose = noisedPrice;
-                        lastIndex = currentIndex;
+                        lastClose = noisedPrice
+                        lastIndex = currentIndex
                         targetIndex = (lastIndex + 5 + (Math.random() + 30).roundToInt())
-                        targetPrice = getRandomPrice();
+                        targetPrice = getRandomPrice()
                     }
                 }
             }
